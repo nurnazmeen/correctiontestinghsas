@@ -1,0 +1,81 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="../css/sideStaff.css">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/listapt.css">
+</head>
+<body>
+	<div class="wrapper">
+		<%@ include file="../sidePharmacist.jsp"%>
+		<div class="main">
+			<div class="appointment-container">
+				<h2 class="section-title"
+					style="text-align: center; margin: 30px 0; color: #333;">
+					Appointment Record</h2>
+
+				<div class="appointment-list">
+					<c:forEach var="apt" items="${appointments}">
+						<div class="appointment-card">
+							<div class="appointment-date">
+								<span class="day"><fmt:formatDate value="${apt.apptDate}"
+										pattern="EEEE" /></span> <span class="date"><fmt:formatDate
+										value="${apt.apptDate}" pattern="dd" /></span>
+							</div>
+
+							<div class="appointment-info">
+								<div class="time-row">
+									<i class="far fa-clock"></i> <span class="text"><fmt:formatDate
+											value="${apt.apptTime}" pattern="HH:mm" /></span>
+								</div>
+								<div class="patient-row">
+									<i class="fas fa-user"></i> <span class="text">${apt.customerName}</span>
+								</div>
+							</div>
+
+							<div class="appointment-package">
+								<p class="package-name">${apt.packageName}</p>
+								<p class="package-date">
+									<fmt:formatDate value="${apt.apptDate}" pattern="dd/MM/yyyy" />
+								</p>
+							</div>
+
+							<div class="appointment-action d-flex flex-column align-items-center">
+								<a
+									href="${pageContext.request.contextPath}/result/resultController?appointmentID=${apt.appointmentID}"
+									class="btn"
+									style="background: #009FA5; color: white; margin-bottom: 5px;">
+									Add Result </a>
+								<a
+									href="${pageContext.request.contextPath}/result/resultController?action=view&appointmentID=${apt.appointmentID}"
+									class="btn"
+									style="background: white; color: black; border: 1px solid #009FA5;">
+									View Result </a>
+							</div>
+
+						</div>
+					</c:forEach>
+
+					<c:if test="${empty appointments}">
+						<div style="text-align: center; padding: 50px; color: #888;">
+							<p>No appointment records found.</p>
+						</div>
+					</c:if>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
